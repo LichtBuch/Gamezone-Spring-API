@@ -1,14 +1,14 @@
 package com.lichtbuch.gamezone.controllers;
 
 import com.lichtbuch.gamezone.dto.CategoryCreateRequest;
+import com.lichtbuch.gamezone.dto.CategoryReplaceRequest;
 import com.lichtbuch.gamezone.dto.CategoryUpdateRequest;
-import com.lichtbuch.gamezone.exceptions.BadRequestException;
 import com.lichtbuch.gamezone.exceptions.NotFoundException;
 import com.lichtbuch.gamezone.models.Category;
 import com.lichtbuch.gamezone.services.CategoryService;
 import jakarta.annotation.Nullable;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
@@ -24,13 +24,13 @@ public class CategoryController {
     }
 
     @GetMapping("/category")
-    public List<Category> getAll(){
+    public List<Category> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/category/{id}")
     public Category getOne(@PathVariable("id") @Nullable Category category) throws NotFoundException {
-        if (category == null){
+        if (category == null) {
             throw new NotFoundException();
         }
 
@@ -38,7 +38,7 @@ public class CategoryController {
     }
 
     @PostMapping("/category")
-    public ResponseEntity<Category> create(@Valid @RequestBody CategoryCreateRequest request) throws NotFoundException {
+    public ResponseEntity<Category> create(@Validated @RequestBody CategoryCreateRequest request) throws NotFoundException {
         var category = service.create(request);
 
         var location = MvcUriComponentsBuilder
@@ -53,7 +53,7 @@ public class CategoryController {
 
     @DeleteMapping("/category/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") @Nullable Category category) throws NotFoundException {
-        if (category == null){
+        if (category == null) {
             throw new NotFoundException();
         }
 
@@ -65,17 +65,17 @@ public class CategoryController {
     }
 
     @PutMapping("/category/{id}")
-    public Category put(@PathVariable long id, @Valid @RequestBody Category category) throws BadRequestException {
-        if (category.getId() != id){
-            throw new BadRequestException();
+    public Category put(@PathVariable("id") @Nullable Category category, @Validated @RequestBody CategoryReplaceRequest request) throws NotFoundException {
+        if (category == null) {
+            throw new NotFoundException();
         }
 
-        return service.replace(category);
+        return service.replace(request, category);
     }
 
     @PatchMapping("/category/{id}")
-    public Category patch(@PathVariable("id") @Nullable Category category, @Valid CategoryUpdateRequest request) throws NotFoundException {
-        if (category == null){
+    public Category patch(@PathVariable("id") @Nullable Category category, @Validated CategoryUpdateRequest request) throws NotFoundException {
+        if (category == null) {
             throw new NotFoundException();
         }
 

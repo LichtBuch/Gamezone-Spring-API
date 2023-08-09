@@ -1,6 +1,7 @@
 package com.lichtbuch.gamezone.controllers;
 
 import com.lichtbuch.gamezone.dto.GameCreateRequest;
+import com.lichtbuch.gamezone.dto.GameReplaceRequest;
 import com.lichtbuch.gamezone.dto.GameUpdateRequest;
 import com.lichtbuch.gamezone.exceptions.BadRequestException;
 import com.lichtbuch.gamezone.exceptions.NotFoundException;
@@ -9,7 +10,6 @@ import com.lichtbuch.gamezone.models.Category;
 import com.lichtbuch.gamezone.models.Game;
 import com.lichtbuch.gamezone.services.GameService;
 import jakarta.annotation.Nullable;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -162,12 +162,12 @@ public class GameController {
     }
 
     @PutMapping("/game/{id}")
-    public Game put(@PathVariable long id, @Valid @RequestBody Game game) throws BadRequestException {
-        if (game.getId() != id){
-            throw new BadRequestException();
+    public Game put(@PathVariable("id") @Nullable Game game, @Validated @RequestBody GameReplaceRequest request) throws NotFoundException {
+        if (game == null) {
+            throw new NotFoundException();
         }
 
-        return service.replace(game);
+        return service.replace(request, game);
     }
 
     @PatchMapping("/game/{id}")

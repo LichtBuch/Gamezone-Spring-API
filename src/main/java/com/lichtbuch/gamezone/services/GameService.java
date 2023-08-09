@@ -1,6 +1,7 @@
 package com.lichtbuch.gamezone.services;
 
 import com.lichtbuch.gamezone.dto.GameCreateRequest;
+import com.lichtbuch.gamezone.dto.GameReplaceRequest;
 import com.lichtbuch.gamezone.dto.GameUpdateRequest;
 import com.lichtbuch.gamezone.exceptions.StorageException;
 import com.lichtbuch.gamezone.models.Category;
@@ -34,7 +35,7 @@ public interface GameService {
 
     void delete(Game game);
 
-    Game replace(Game game);
+    Game replace(GameReplaceRequest request, Game game);
 
     Game update(GameUpdateRequest request, Game game);
 

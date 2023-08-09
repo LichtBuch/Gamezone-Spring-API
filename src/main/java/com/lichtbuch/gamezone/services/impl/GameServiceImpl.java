@@ -1,6 +1,7 @@
 package com.lichtbuch.gamezone.services.impl;
 
 import com.lichtbuch.gamezone.dto.GameCreateRequest;
+import com.lichtbuch.gamezone.dto.GameReplaceRequest;
 import com.lichtbuch.gamezone.dto.GameUpdateRequest;
 import com.lichtbuch.gamezone.exceptions.StorageException;
 import com.lichtbuch.gamezone.models.Category;
@@ -111,7 +112,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game replace(Game game) {
+    public Game replace(GameReplaceRequest request, Game game) {
+        mapper.map(request, game);
         return repository.save(game);
     }
 

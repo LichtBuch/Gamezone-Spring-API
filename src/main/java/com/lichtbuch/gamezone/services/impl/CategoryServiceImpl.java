@@ -1,6 +1,7 @@
 package com.lichtbuch.gamezone.services.impl;
 
 import com.lichtbuch.gamezone.dto.CategoryCreateRequest;
+import com.lichtbuch.gamezone.dto.CategoryReplaceRequest;
 import com.lichtbuch.gamezone.dto.CategoryUpdateRequest;
 import com.lichtbuch.gamezone.models.Category;
 import com.lichtbuch.gamezone.repositories.CategoryRepository;
@@ -38,7 +39,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category replace(Category category) {
+    public Category replace(CategoryReplaceRequest request, Category category) {
+        mapper.map(request, category);
         return repository.save(category);
     }
 
