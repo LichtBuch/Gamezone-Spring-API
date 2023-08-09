@@ -6,12 +6,10 @@ import com.lichtbuch.gamezone.models.Image;
 import com.lichtbuch.gamezone.services.ImageService;
 import jakarta.annotation.Nullable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/image")
 public class ImageController {
 
     private final ImageService service;
@@ -20,7 +18,7 @@ public class ImageController {
         this.service = service;
     }
 
-    @GetMapping("/image/{id}")
+    @GetMapping("/{id}")
     public Image getOne(@PathVariable("id") @Nullable Image image) throws NotFoundException {
         if (image == null){
             throw new NotFoundException();
@@ -29,7 +27,7 @@ public class ImageController {
         return image;
     }
 
-    @DeleteMapping("/image/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable("id") @Nullable Image image
     ) throws NotFoundException, StorageException {

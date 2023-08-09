@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.util.List;
 
 @RestController
+@RequestMapping("/category")
 public class CategoryController {
 
     private final CategoryService service;
@@ -23,12 +24,12 @@ public class CategoryController {
         this.service = service;
     }
 
-    @GetMapping("/category")
+    @GetMapping
     public List<Category> getAll() {
         return service.getAll();
     }
 
-    @GetMapping("/category/{id}")
+    @GetMapping("/{id}")
     public Category getOne(@PathVariable("id") @Nullable Category category) throws NotFoundException {
         if (category == null) {
             throw new NotFoundException();
@@ -37,7 +38,7 @@ public class CategoryController {
         return category;
     }
 
-    @PostMapping("/category")
+    @PostMapping
     public ResponseEntity<Category> create(@Validated @RequestBody CategoryCreateRequest request) throws NotFoundException {
         var category = service.create(request);
 
@@ -51,7 +52,7 @@ public class CategoryController {
                 .body(category);
     }
 
-    @DeleteMapping("/category/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") @Nullable Category category) throws NotFoundException {
         if (category == null) {
             throw new NotFoundException();
@@ -64,7 +65,7 @@ public class CategoryController {
                 .build();
     }
 
-    @PutMapping("/category/{id}")
+    @PutMapping("/{id}")
     public Category put(@PathVariable("id") @Nullable Category category, @Validated @RequestBody CategoryReplaceRequest request) throws NotFoundException {
         if (category == null) {
             throw new NotFoundException();
@@ -73,7 +74,7 @@ public class CategoryController {
         return service.replace(request, category);
     }
 
-    @PatchMapping("/category/{id}")
+    @PatchMapping("/{id}")
     public Category patch(@PathVariable("id") @Nullable Category category, @Validated CategoryUpdateRequest request) throws NotFoundException {
         if (category == null) {
             throw new NotFoundException();
@@ -81,6 +82,5 @@ public class CategoryController {
 
         return service.update(request, category);
     }
-
 
 }

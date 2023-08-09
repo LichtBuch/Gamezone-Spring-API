@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.util.List;
 
 @RestController
+@RequestMapping("/game")
 public class GameController {
 
     private final GameService service;
@@ -27,12 +28,12 @@ public class GameController {
         this.service = service;
     }
 
-    @GetMapping("game")
+    @GetMapping
     public List<Game> getAll() {
         return service.getAll();
     }
 
-    @GetMapping("game/{id}")
+    @GetMapping("/{id}")
     public Game getOne(@PathVariable("id") @Nullable Game game) throws NotFoundException {
         if (game == null) {
             throw new NotFoundException();
@@ -41,7 +42,7 @@ public class GameController {
         return game;
     }
 
-    @PostMapping("/game")
+    @PostMapping
     public ResponseEntity<Game> create(@Validated @RequestBody GameCreateRequest request) throws NotFoundException {
         var game = service.create(request);
         var location = MvcUriComponentsBuilder
@@ -54,12 +55,12 @@ public class GameController {
                 .body(game);
     }
 
-    @GetMapping("/game/deleted")
+    @GetMapping("/deleted")
     public List<Game> getDeleted() {
         return service.getDeleted();
     }
 
-    @PatchMapping("/game/restore/{id}")
+    @PatchMapping("/restore/{id}")
     public Game restoreGame(@PathVariable("id") @Nullable Game game) throws NotFoundException {
         if (game == null) {
             throw new NotFoundException();
@@ -68,12 +69,12 @@ public class GameController {
         return service.restoreGame(game);
     }
 
-    @GetMapping("/game/wishlisted")
+    @GetMapping("/wishlisted")
     public List<Game> getWishlisted() {
         return service.getWishlisted();
     }
 
-    @PatchMapping("/game/{id}/toggle-wishlist")
+    @PatchMapping("/{id}/toggle-wishlist")
     public Game toggleWishlisted(@PathVariable("id") @Nullable Game game) throws NotFoundException {
         if (game == null) {
             throw new NotFoundException();
@@ -82,7 +83,7 @@ public class GameController {
         return service.toggleWishlisted(game);
     }
 
-    @GetMapping("/game/{id}/recommendation")
+    @GetMapping("/{id}/recommendation")
     public List<Game> getRecommendations(@PathVariable("id") @Nullable Game game) throws NotFoundException {
         if (game == null) {
             throw new NotFoundException();
@@ -91,7 +92,7 @@ public class GameController {
         return service.getRecommendations(game);
     }
 
-    @PostMapping("/game/{gameId}/category/{categoryId}")
+    @PostMapping("/{gameId}/category/{categoryId}")
     public Game addCategory(
             @PathVariable("gameId") @Nullable Game game,
             @PathVariable("categoryId") @Nullable Category category
@@ -103,7 +104,7 @@ public class GameController {
         return service.addCategory(game, category);
     }
 
-    @DeleteMapping("/game/{gameId}/category/{categoryId}")
+    @DeleteMapping("/{gameId}/category/{categoryId}")
     public Game removeCategory(
             @PathVariable("gameId") @Nullable Game game,
             @PathVariable("categoryId") @Nullable Category category
@@ -115,7 +116,7 @@ public class GameController {
         return service.removeCategory(game, category);
     }
 
-    @PostMapping("/game/{id}/image")
+    @PostMapping("/{id}/image")
     public ResponseEntity<Game> createImage(
             @PathVariable("id") @Nullable Game game,
             @RequestParam("file") @Nullable MultipartFile file
@@ -139,7 +140,7 @@ public class GameController {
                 .body(game);
     }
 
-    @DeleteMapping("/game/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") @Nullable Game game) throws NotFoundException {
         if (game == null) {
             throw new NotFoundException();
@@ -152,7 +153,7 @@ public class GameController {
                 .build();
     }
 
-    @GetMapping("/game/{id}/category")
+    @GetMapping("/{id}/category")
     public List<Category> getCategories(@PathVariable("id") @Nullable Game game) throws NotFoundException {
         if (game == null) {
             throw new NotFoundException();
@@ -161,7 +162,7 @@ public class GameController {
         return game.getCategories();
     }
 
-    @PutMapping("/game/{id}")
+    @PutMapping("/{id}")
     public Game put(@PathVariable("id") @Nullable Game game, @Validated @RequestBody GameReplaceRequest request) throws NotFoundException {
         if (game == null) {
             throw new NotFoundException();
@@ -170,7 +171,7 @@ public class GameController {
         return service.replace(request, game);
     }
 
-    @PatchMapping("/game/{id}")
+    @PatchMapping("/{id}")
     public Game patch(@PathVariable("id") @Nullable Game game, @Validated @RequestBody GameUpdateRequest request) throws NotFoundException {
         if (game == null){
             throw new NotFoundException();
