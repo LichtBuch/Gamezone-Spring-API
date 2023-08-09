@@ -8,6 +8,7 @@ import com.lichtbuch.gamezone.exceptions.NotFoundException;
 import com.lichtbuch.gamezone.exceptions.StorageException;
 import com.lichtbuch.gamezone.models.Category;
 import com.lichtbuch.gamezone.models.Game;
+import com.lichtbuch.gamezone.models.Image;
 import com.lichtbuch.gamezone.services.GameService;
 import jakarta.annotation.Nullable;
 import org.springframework.http.ResponseEntity;
@@ -173,11 +174,20 @@ public class GameController {
 
     @PatchMapping("/{id}")
     public Game patch(@PathVariable("id") @Nullable Game game, @Validated @RequestBody GameUpdateRequest request) throws NotFoundException {
-        if (game == null){
+        if (game == null) {
             throw new NotFoundException();
         }
 
         return service.update(request, game);
+    }
+
+    @GetMapping("/{id}/image")
+    public List<Image> getImages(@PathVariable("id") @Nullable Game game) throws NotFoundException {
+        if (game == null) {
+            throw new NotFoundException();
+        }
+
+        return game.getImages();
     }
 
 }
